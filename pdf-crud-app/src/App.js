@@ -5,7 +5,9 @@ import Home from "./Home";
 import BlogDetails from "./BlogDetails";
 import SetlistDetails from "./SetlistDetails";
 import Create from "./Create";
+import TestUpload from "./TestUpload";
 import NotFound from "./NotFound";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
@@ -27,6 +29,9 @@ function App() {
             </Route>
             <Route path= "/setlists/:id">
               <SetlistDetails></SetlistDetails>
+            </Route>
+            <Route path= "/testupload">
+            <TestUpload></TestUpload>
             </Route>
             <Route path= "*">
               <NotFound></NotFound>

@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@wojtekmaj/react-hooks": "^1.21.0",
+    "axios": "^1.7.9",
     "cra-template": "1.2.0",
+    "firebase": "^11.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-pdf": "^9.1.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1"
   },

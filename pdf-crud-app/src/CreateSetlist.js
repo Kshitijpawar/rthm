@@ -12,9 +12,9 @@ const CreateSetlist = () => {
       spotify_link: "",
       youtube_link: "",
       chords: {
-        guitar: null,
-        ukulele: null,
-        piano: null,
+        guitar: "",
+        ukulele: "",
+        piano: "",
       },
     },
   ]);
@@ -57,6 +57,7 @@ const CreateSetlist = () => {
 
   const handleSubmit = async (e) => {
     
+    e.preventDefault();
 
     const formData = new FormData();
     formData.append("setlist_name", setlistName);
@@ -176,9 +177,9 @@ const CreateSetlist = () => {
             spotify_link: "",
             youtube_link: "",
             chords: {
-              guitar: null,
-              ukulele: null,
-              piano: null,
+              guitar: "",
+              ukulele: "",
+              piano: "",
             },
           },
         ]);
@@ -189,6 +190,8 @@ const CreateSetlist = () => {
       console.error("Setlist creation failed:", error);
       alert("Setlist creation failed!");
     }
+  
+    e.target.reset();
   };
 
   return (
@@ -248,6 +251,7 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
+                // value={song.chords.guitar}
                 onChange={(e) => {
                   // console.log(e.target.files[0]);
                   handleFileChange(index, "guitar", e.target.files[0]);
@@ -259,6 +263,7 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
+                // value={song.chords.ukulele}
                 onChange={(e) => {
                   // console.log(e.target.files[0]);
                   handleFileChange(index, "ukulele", e.target.files[0]);
@@ -270,6 +275,7 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
+                // value={song.chords.piano}
                 onChange={(e) => {
                   // console.log(e.target.files[0]);
                   handleFileChange(index, "piano", e.target.files[0]);

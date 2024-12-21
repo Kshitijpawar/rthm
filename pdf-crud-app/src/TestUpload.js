@@ -24,7 +24,7 @@ const TestUpload = () => {
     formData.append("file", file);
     try {
       const response = await axios.post(
-        "http://192.168.31.195:5080/upload",
+        "http://localhost:5080/upload",
         formData,
         {
           headers: {
@@ -32,6 +32,8 @@ const TestUpload = () => {
           },
         }
       );
+      console.log("pdf response data");
+      console.log(response);
       setPdfUrl(response.data.fileURL);
       alert("File uploaded successfully!");
       setError(true);

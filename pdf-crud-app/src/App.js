@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import BlogDetails from "./BlogDetails";
 import SetlistDetails from "./SetlistDetails";
-import Create from "./Create";
+// import Create from "./Create";
 import TestUpload from "./TestUpload";
 import NotFound from "./NotFound";
 
@@ -22,9 +22,9 @@ function App() {
             <Route exact path= "/">
             <Home></Home>
             </Route>
-            <Route path= "/create">
+            {/* <Route path= "/create">
             <Create></Create>
-            </Route>
+            </Route> */}
             <Route path= "/blogs/:id">
             <BlogDetails></BlogDetails>
             </Route>

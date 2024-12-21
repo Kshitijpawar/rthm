@@ -10,7 +10,8 @@ const SetlistDetails = () => {
     error,
     isPending,
   } = useFetch("http://localhost:8000/setlists/" + id);
-
+  // console.log("printing set");
+  // console.log(set);
   return (
     <div className="set-details" id= {id}>
       {isPending && <div>Loading...</div>}

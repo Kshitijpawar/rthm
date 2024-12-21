@@ -1,4 +1,4 @@
-import BlogList from "./BlogList";
+// import BlogList from "./BlogList";
 import SetList from "./SetList";
 import useFetch from "./useFetch";
 
@@ -9,8 +9,8 @@ const Home = () => {
     isPending,
     error,
   } = useFetch("http://localhost:8000/setlists");
-  console.log("printing sets")
-  console.log(sets);
+  // console.log("printing sets")
+  // console.log(sets);
   return (
     <div className="home">
       {error && <div>{error}</div>}

@@ -13,11 +13,11 @@ const useFetch = (url) => {
           if (!response.ok) {
             throw new Error("could not fetch the data for the result");
           }
-          console.log(response);
+          // console.log(response);
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setData(data);
           setIsPending(false);
           setError(null);

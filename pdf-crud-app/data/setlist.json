@@ -1,7 +1,7 @@
 {
   "setlists": [
     {
-      "id": 1,
+      "id": "1",
       "setlist_name": "setlist 1",
       "setlist_created": "2024-12-08",
       "performance_date": "2024-12-15",
@@ -48,57 +48,79 @@
       ]
     },
     {
-        "id": 2,
-        "setlist_name": "setlist 2",
-        "setlist_created": "2024-12-06",
-        "performance_date": "2024-12-19",
-        "songs": [
-          {
-            "song_id": 1,
-            "song_name": "Birds of a feather",
-            "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
-            "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
-            "chords": [
-              {
-                "guitar": "https://drive.google.com/file/d/1YuR80-gdTLaBESRrS2ZUn2QntcLi_tSS/view?usp=sharing",
-                "ukelele": "https://drive.google.com/file/d/1M3bi0AKZY2RsyoRPvr7uECWpEhRDtaZw/view?usp=sharing",
-                "piano": "https://drive.google.com/file/d/1BGZkhGPagMzqdjw3PYI5DJ6vLt8qCFxr/view?usp=sharing"
-              }
-            ]
-          },
-          {
-            "song_id": 2,
-            "song_name": "Dancing in the moonlight",
-            "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
-            "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
-            "chords": [
-              {
-                "guitar": "https://drive.google.com/file/d/1YuR80-gdTLaBESRrS2ZUn2QntcLi_tSS/view?usp=sharing",
-                "ukelele": "https://drive.google.com/file/d/1M3bi0AKZY2RsyoRPvr7uECWpEhRDtaZw/view?usp=sharing",
-                "piano": "https://drive.google.com/file/d/1BGZkhGPagMzqdjw3PYI5DJ6vLt8qCFxr/view?usp=sharing"
-              }
-            ]
-          },
-          {
-            "song_id": 3,
-            "song_name": "Shut up and dance",
-            "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
-            "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
-            "chords": [
-              {
-                "guitar": "https://drive.google.com/file/d/1YuR80-gdTLaBESRrS2ZUn2QntcLi_tSS/view?usp=sharing",
-                "ukelele": "https://drive.google.com/file/d/1M3bi0AKZY2RsyoRPvr7uECWpEhRDtaZw/view?usp=sharing",
-                "piano": "https://drive.google.com/file/d/1BGZkhGPagMzqdjw3PYI5DJ6vLt8qCFxr/view?usp=sharing"
-              }
-            ]
-          }
-        ]
-      },
-    {
-      "id": 3,
-      "setlist_name": "setlist 3",
+      "id": "2",
+      "setlist_name": "setlist 2",
       "setlist_created": "2024-12-06",
-      "performance_date": "2024-12-26"
+      "performance_date": "2024-12-19",
+      "songs": [
+        {
+          "song_id": 1,
+          "song_name": "Birds of a feather",
+          "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
+          "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
+          "chords": [
+            {
+              "guitar": "https://drive.google.com/file/d/1YuR80-gdTLaBESRrS2ZUn2QntcLi_tSS/view?usp=sharing",
+              "ukelele": "https://drive.google.com/file/d/1M3bi0AKZY2RsyoRPvr7uECWpEhRDtaZw/view?usp=sharing",
+              "piano": "https://drive.google.com/file/d/1BGZkhGPagMzqdjw3PYI5DJ6vLt8qCFxr/view?usp=sharing"
+            }
+          ]
+        },
+        {
+          "song_id": 2,
+          "song_name": "Dancing in the moonlight",
+          "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
+          "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
+          "chords": [
+            {
+              "guitar": "https://drive.google.com/file/d/1YuR80-gdTLaBESRrS2ZUn2QntcLi_tSS/view?usp=sharing",
+              "ukelele": "https://drive.google.com/file/d/1M3bi0AKZY2RsyoRPvr7uECWpEhRDtaZw/view?usp=sharing",
+              "piano": "https://drive.google.com/file/d/1BGZkhGPagMzqdjw3PYI5DJ6vLt8qCFxr/view?usp=sharing"
+            }
+          ]
+        },
+        {
+          "song_id": 3,
+          "song_name": "Shut up and dance",
+          "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
+          "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
+          "chords": [
+            {
+              "guitar": "https://drive.google.com/file/d/1YuR80-gdTLaBESRrS2ZUn2QntcLi_tSS/view?usp=sharing",
+              "ukelele": "https://drive.google.com/file/d/1M3bi0AKZY2RsyoRPvr7uECWpEhRDtaZw/view?usp=sharing",
+              "piano": "https://drive.google.com/file/d/1BGZkhGPagMzqdjw3PYI5DJ6vLt8qCFxr/view?usp=sharing"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1734757528831",
+      "setlist_name": "final",
+      "setlist_created": "2024-12-21",
+      "performance_date": "2025-01-01",
+      "songs": [
+        {
+          "song_id": "ag2ef",
+          "song_name": "no surprises",
+          "spotify_link": "https://open.spotify.com/track/10nyNJ6zNy2YVYLrcwLccB?si=341fe06bb7144254",
+          "youtube_link": "https://www.youtube.com/watch?v=u5CVsCnxyXg&ab_channel=Radiohead"
+        }
+      ]
+    },
+    {
+      "id": "1734757723249",
+      "setlist_name": "newsets",
+      "setlist_created": "2024-12-21",
+      "performance_date": "2025-02-02",
+      "songs": [
+        {
+          "song_id": "nzt6fg",
+          "song_name": "king of limbs",
+          "spotify_link": "https://open.spotify.com/track/10nyNJ6zNy2YVYLrcwLccB",
+          "youtube_link": "https://www.youtube.com/watch?v=u5CVsCnxyXg&ab_channel=Radiohead"
+        }
+      ]
     }
   ]
 }

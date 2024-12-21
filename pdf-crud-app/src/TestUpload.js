@@ -24,7 +24,7 @@ const TestUpload = () => {
     formData.append("file", file);
     try {
       const response = await axios.post(
-        "http://localhost:5080/upload",
+        "http://192.168.31.195:5080/upload",
         formData,
         {
           headers: {
@@ -47,7 +47,7 @@ const TestUpload = () => {
       <button onClick={handleUpload}>Upload PDF</button>
       {error && (
         <div>
-          <h2>View uploaded pdf</h2>
+          {/* <h2>View uploaded pdf</h2> */}
           {/* Use PdfViewer component to render the uploaded PDF */}
           <PdfViewer pdfUrl={pdfUrl} />
         </div>

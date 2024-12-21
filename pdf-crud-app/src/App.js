@@ -9,6 +9,7 @@ import TestUpload from "./TestUpload";
 import NotFound from "./NotFound";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import CreateSetlist from "./CreateSetlist";
 
 function App() {
   // const person = {};
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path= "/testupload">
             <TestUpload></TestUpload>
+            </Route>
+            <Route path= "/createsetlist">
+            <CreateSetlist></CreateSetlist>
             </Route>
             <Route path= "*">
               <NotFound></NotFound>

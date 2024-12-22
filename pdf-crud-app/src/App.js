@@ -10,6 +10,7 @@ import NotFound from "./NotFound";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateSetlist from "./CreateSetlist";
+import SongDetails from "./SongDetails";
 
 function App() {
   // const person = {};
@@ -19,25 +20,26 @@ function App() {
         <Navbar />
         <div className="content">
           <Switch>
-            <Route exact path= "/">
-            <Home></Home>
+            <Route exact path="/">
+              <Home></Home>
             </Route>
-            {/* <Route path= "/create">
-            <Create></Create>
-            </Route> */}
-            <Route path= "/blogs/:id">
-            <BlogDetails></BlogDetails>
+            <Route path="/blogs/:id">
+              <BlogDetails></BlogDetails>
             </Route>
-            <Route path= "/setlists/:id">
+            <Route path="/setlists/:setlistId/songs/:songId">
+              <SongDetails></SongDetails>
+            </Route>
+            <Route path="/setlists/:id">
               <SetlistDetails></SetlistDetails>
             </Route>
-            <Route path= "/testupload">
-            <TestUpload></TestUpload>
+            <Route path="/testupload">
+              <TestUpload></TestUpload>
             </Route>
-            <Route path= "/createsetlist">
-            <CreateSetlist></CreateSetlist>
+            <Route path="/createsetlist">
+              <CreateSetlist></CreateSetlist>
             </Route>
-            <Route path= "*">
+            
+            <Route path="*">
               <NotFound></NotFound>
             </Route>
           </Switch>

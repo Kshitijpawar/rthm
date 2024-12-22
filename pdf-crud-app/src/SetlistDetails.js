@@ -1,8 +1,10 @@
 import { useParams, useHistory } from "react-router-dom";
 import useFetch from "./useFetch";
+import { Link } from "react-router-dom";
 
 const SetlistDetails = () => {
   const { id } = useParams();
+  // console.log("brother this is setlist details" + id);
   const history = useHistory();
 
   const {
@@ -13,7 +15,7 @@ const SetlistDetails = () => {
   // console.log("printing set");
   // console.log(set);
   return (
-    <div className="set-details" id= {id}>
+    <div className="set-details" id={id}>
       {isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
       {set && (
@@ -24,8 +26,16 @@ const SetlistDetails = () => {
       )}
       {set?.songs &&
         set.songs.map((song) => (
-          <div className= "song-preview" id= {song.song_id} key= {song.song_id}>
-            <h2>{song.song_name}</h2>
+          <div className="song-preview" id={song.song_id} key={song.song_id}>
+            
+            <Link
+              to={{
+                pathname: `/setlists/${set.id}/songs/${song.song_id}`,
+                state: { selectedSong: song },
+              }}
+            >
+              <h2>{song.song_name}</h2>
+            </Link>
           </div>
         ))}
     </div>

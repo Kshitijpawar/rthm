@@ -130,7 +130,23 @@
   cursor: pointer;
 }
 
-
+/* Song Details page */
+.song-details h2 {
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 10px;
+}
+.song-details div {
+  margin: 20px 0;
+}
+.song-details button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
 
 

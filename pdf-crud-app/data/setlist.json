@@ -95,133 +95,64 @@
       ]
     },
     {
-      "id": "1734768923305",
-      "setlist_name": "newSet",
-      "setlist_created": "2024-12-21",
-      "performance_date": "2032-04-02",
+      "id": "1734878104425",
+      "setlist_name": "testSetlist",
+      "setlist_created": "2024-12-22",
+      "performance_date": "2025-01-01",
       "songs": [
         {
-          "song_id": "b9lm8",
-          "song_name": "creeo",
-          "spotify_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "youtube_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
+          "song_id": "rj8n5",
+          "song_name": "this is me ",
+          "spotify_link": "https://open.spotify.com/track/45aBsnKRWUzhwbcqOJLwfe?si=d5a24ccb8c964034",
+          "youtube_link": "https://www.youtube.com/watch?v=wEJd2RyGm8Q",
           "chords": {
-            "guitar": "http://localhost:5080/1734768923289-guitar_chordskp.pdf"
-          }
-        }
-      ]
-    },
-    {
-      "id": "1734769077373",
-      "setlist_name": "magneticPull",
-      "setlist_created": "2024-12-21",
-      "performance_date": "2023-03-01",
-      "songs": [
-        {
-          "song_id": "1bwnt",
-          "song_name": "sta1",
-          "spotify_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "youtube_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "chords": {
-            "guitar": "http://localhost:5080/1734769077342-Radiohead-Kid-A-Sheet-Music.pdf"
-          }
-        }
-      ]
-    },
-    {
-      "id": "1734769157461",
-      "setlist_name": "get1",
-      "setlist_created": "2024-12-21",
-      "performance_date": "2093-09-09",
-      "songs": [
-        {
-          "song_id": "sy121",
-          "song_name": "cre1",
-          "spotify_link": "https://www.linkedin.com/in/kshitijpawar1",
-          "youtube_link": "https://www.linkedin.com/in/kshitijpawar1",
-          "chords": {
-            "guitar": "http://localhost:5080/1734769157431-guitar_chordskp.pdf",
-            "ukulele": "http://localhost:5080/1734769157449-ukulele_chordskp.pdf"
+            "guitar": "http://localhost:5080/1734878104397-This is Me Guitar Chords (-2) .pdf",
+            "ukulele": "http://localhost:5080/1734878104413-This is Me Uke Chords (-2) .pdf",
+            "piano": "http://localhost:5080/1734878104418-This is me concert sheet.pdf"
           }
         },
         {
-          "song_name": "cre2",
-          "spotify_link": "https://www.linkedin.com/in/kshitijpawar1",
-          "youtube_link": "https://www.linkedin.com/in/kshitijpawar1",
+          "song_id": "iuvvn",
+          "song_name": "do re mi",
+          "spotify_link": "https://open.spotify.com/track/6aNMGfwdGyELNGCuqs5ldU?si=758feeb633834a2e",
+          "youtube_link": "https://www.youtube.com/watch?v=drnBMAEA3AM",
           "chords": {
-            "guitar": "http://localhost:5080/1734769157433-guitar_chordskp.pdf",
-            "piano": "http://localhost:5080/1734769157449-piano_chordskp.pdf"
+            "guitar": "http://localhost:5080/1734878104395-Do re mi Guitar Chords .pdf",
+            "ukulele": "http://localhost:5080/1734878104412-Do re mi Uke chords.pdf",
+            "piano": "http://localhost:5080/1734878104417-Do re mi concert sheet.pdf"
           }
         },
         {
-          "song_name": "cre3",
-          "spotify_link": "https://www.linkedin.com/in/kshitijpawar1",
-          "youtube_link": "https://www.linkedin.com/in/kshitijpawar1",
+          "song_id": "wy3se",
+          "song_name": "dance the night",
+          "spotify_link": "https://open.spotify.com/track/11C4y2Yz1XbHmaQwO06s9f?si=c48926569ec14735",
+          "youtube_link": "https://www.youtube.com/watch?v=OiC1rgCPmUQ",
           "chords": {
-            "ukulele": "http://localhost:5080/1734769157434-ukulele_chordskp.pdf",
-            "piano": "http://localhost:5080/1734769157448-piano_chordskp.pdf"
-          }
-        }
-      ]
-    },
-    {
-      "id": "1734769345617",
-      "setlist_name": "ok",
-      "setlist_created": "2024-12-21",
-      "performance_date": "2034-05-03",
-      "songs": [
-        {
-          "song_id": "js90s",
-          "song_name": "cre1",
-          "spotify_link": "https://www.linkedin.com/in/kshitijpawar1",
-          "youtube_link": "https://www.linkedin.com/in/kshitijpawar1",
-          "chords": {
-            "guitar": "http://localhost:5080/1734769345610-guitar_chordskp.pdf"
-          }
-        }
-      ]
-    },
-    {
-      "id": "1734791562327",
-      "setlist_name": "finalSet1",
-      "setlist_created": "2024-12-21",
-      "performance_date": "2032-03-01",
-      "songs": [
-        {
-          "song_id": "ad48e",
-          "song_name": "creep",
-          "spotify_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "youtube_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "chords": {
-            "guitar": "http://localhost:5080/1734791562313-ukulele_chordskp.pdf",
-            "ukulele": "http://localhost:5080/1734791562323-ukulele_chordskp.pdf"
-          }
-        }
-      ]
-    },
-    {
-      "id": "1734791676633",
-      "setlist_name": "finalSet2",
-      "setlist_created": "2024-12-21",
-      "performance_date": "2035-05-06",
-      "songs": [
-        {
-          "song_id": "7rgw7",
-          "song_name": "song1",
-          "spotify_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "youtube_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "chords": {
-            "guitar": "http://localhost:5080/1734791676615-piano_chordskp.pdf",
-            "ukulele": "http://localhost:5080/1734791676629-guitar_chordskp.pdf"
+            "guitar": "http://localhost:5080/1734878104399-Dance the night guitar chords (-2) .pdf",
+            "ukulele": "http://localhost:5080/1734878104413-Dance the night uke chords (-2).pdf",
+            "piano": "http://localhost:5080/1734878104418-Dance the night concert sheet.pdf"
           }
         },
         {
-          "song_id": "84op5h",
-          "song_name": "song2",
-          "spotify_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
-          "youtube_link": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV",
+          "song_id": "5t1hyl",
+          "song_name": "as it was ",
+          "spotify_link": "https://open.spotify.com/track/4Dvkj6JhhA12EX05fT7y2e?si=839639a6f7b34700",
+          "youtube_link": "https://www.youtube.com/watch?v=H5v3kku4y6Q",
           "chords": {
-            "ukulele": "http://localhost:5080/1734791676616-ukulele_chordskp.pdf"
+            "guitar": "http://localhost:5080/1734878104411-As it was chords Guitar.pdf",
+            "ukulele": "http://localhost:5080/1734878104416-As it was uke chords Guitar.pdf",
+            "piano": "http://localhost:5080/1734878104424-As it was concert sheet.pdf"
+          }
+        },
+        {
+          "song_id": "4cp6o",
+          "song_name": "immortals",
+          "spotify_link": "https://open.spotify.com/track/3c1ItvzDDDpmDgLH9SIUp4?si=08b1b2f0c47b440c",
+          "youtube_link": "https://www.youtube.com/watch?v=l9PxOanFjxQ",
+          "chords": {
+            "guitar": "http://localhost:5080/1734878104407-immortals uke chords (-2) .pdf",
+            "ukulele": "http://localhost:5080/1734878104414-Immortals piano chords.pdf",
+            "piano": "http://localhost:5080/1734878104420-Immortals concert sheet.pdf"
           }
         }
       ]

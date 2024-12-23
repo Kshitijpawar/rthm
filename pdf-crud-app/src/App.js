@@ -11,6 +11,7 @@ import NotFound from "./NotFound";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateSetlist from "./CreateSetlist";
 import SongDetails from "./SongDetails";
+import SetlistEdit from "./SetlistEdit";
 
 function App() {
   // const person = {};
@@ -29,6 +30,9 @@ function App() {
             <Route path="/setlists/:setlistId/songs/:songId">
               <SongDetails></SongDetails>
             </Route>
+            <Route path="/edit/:setlistId">
+              <SetlistEdit></SetlistEdit>
+            </Route>
             <Route path="/setlists/:id">
               <SetlistDetails></SetlistDetails>
             </Route>
@@ -38,7 +42,7 @@ function App() {
             <Route path="/createsetlist">
               <CreateSetlist></CreateSetlist>
             </Route>
-            
+
             <Route path="*">
               <NotFound></NotFound>
             </Route>

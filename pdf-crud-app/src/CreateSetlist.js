@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 // import axios from "axios";
 
 const CreateSetlist = () => {
@@ -138,7 +138,6 @@ const CreateSetlist = () => {
             }
           }
           // return { ...songs, chords: chordPaths };
-          console.log(chordPaths);
           return {
             song_id: song.song_id,
             song_name: song.song_name,

@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateSetlist from "./CreateSetlist";
 import SongDetails from "./SongDetails";
 import SetlistEdit from "./SetlistEdit";
+import ReactFile from "./ReactFile";
 
 function App() {
   // const person = {};
@@ -42,7 +43,7 @@ function App() {
             <Route path="/createsetlist">
               <CreateSetlist></CreateSetlist>
             </Route>
-
+<Route path="/reactpdf"><ReactFile></ReactFile></Route>
             <Route path="*">
               <NotFound></NotFound>
             </Route>

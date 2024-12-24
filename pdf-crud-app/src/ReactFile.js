@@ -8,8 +8,8 @@ import TestRtdb from "./TestRtdb";
 
 const TestUpload = () => {
   const [file, setFile] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState("");
-  const [error, setError] = useState(false);
+//   const [pdfUrl, setPdfUrl] = useState("");
+//   const [error, setError] = useState(false);
   const [supaResponse, setSupaResponse] = useState(null);
 
   // supabase init
@@ -36,7 +36,7 @@ const TestUpload = () => {
       // upload to supabase
       const fileName = file.name;
       const { data, error } = await supabase.storage
-        .from("rthm-store")
+        .from("chords")
         .upload(fileName, file, {
           cacheControl: "3600",
           upsert: false,
@@ -44,7 +44,7 @@ const TestUpload = () => {
         console.log("got data : ", data);
         setSupaResponse(data);
       if (error) {
-        setError(error);
+        // setError(error);
         throw console.error("Error uploading file: ", error);
       } else {
         // alert("File succesffully uploaded to supabase");

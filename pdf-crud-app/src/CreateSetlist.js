@@ -1,6 +1,9 @@
-import axios from "axios";
+// import { createClient } from "@supabase/supabase-js";
 import React, { useState } from "react";
-// import axios from "axios";
+import { database } from "./firebase";
+import { ref, set, push } from "firebase/database";
+import { supabase } from "./supabaseInit";
+
 
 const CreateSetlist = () => {
   const [setlistName, setSetlistName] = useState("");
@@ -19,6 +22,34 @@ const CreateSetlist = () => {
     },
   ]);
 
+  // writing to firebase realtime database
+  const writeUserData = (
+    setlistId,
+    setlistName,
+    setlistCreated,
+    performanceDate,
+    songs
+  ) => {
+    const setlistRef = ref(database, "setlistsNew/" + setlistId);
+    set(setlistRef, {
+      setlist_name: setlistName,
+      setlist_created: setlistCreated,
+      performance_date: performanceDate,
+    });
+
+    // Push songs dynamically
+    songs.forEach((song) => {
+      const songRef = push(ref(database, "setlistsNew/" + setlistId + "/songs"));
+      set(songRef, {
+        song_id: song.song_id,
+        song_name: song.song_name,
+        spotify_link: song.spotify_link,
+        youtube_link: song.youtube_link,
+        chords: song.chords, // Include chords (whether empty or populated)
+      });
+    });
+  };
+
   const handleAddSong = () => {
     setSongs([
       ...songs,
@@ -27,7 +58,7 @@ const CreateSetlist = () => {
         song_name: "",
         spotify_link: "",
         youtube_link: "",
-        chords: { guitar: null, ukulele: null, piano: null },
+        chords: { guitar: "", ukulele: "", piano: "" }, // Default empty strings
       },
     ]);
   };
@@ -55,8 +86,42 @@ const CreateSetlist = () => {
     setSongs(updatedSongs);
   };
 
-  const handleSubmit = async (e) => {
+  const handleUploadToSupabase = async (index, instrument, file) => {
+    if (!file) return;
+
+    const fileName = `${instrument}-${Date.now()}-${file.name}`;
+    console.log("file name: ", fileName);
+    const { data, error } = await supabase.storage
+      .from("chords") // Assuming you've set up a "chords" bucket in Supabase storage
+      .upload(fileName, file);
+
+    if (error) {
+      console.error("Error uploading file:", error.message);
+      return;
+    }
+
+    // // Get the URL of the uploaded file
+    // const { publicURL, error: urlError } = supabase.storage
+    //   .from("chords")
+    //   .getPublicUrl(fileName);
+
+    // console.log("public url: ", publicURL);
+    // if (urlError) {
+      // console.log("Error getting public URL:", urlError.message);
+      // return;
+    // }
+
     
+
+    const updatedSongs = [...songs];
+    // updatedSongs[index].chords[instrument] = publicURL;
+    updatedSongs[index].chords[instrument] = data.path
+    setSongs(updatedSongs);
+
+    console.log("no alarms yet");
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -64,91 +129,34 @@ const CreateSetlist = () => {
     formData.append("setlist_created", new Date().toISOString().split("T")[0]);
     formData.append("performance_date", performanceDate);
     formData.append("songs", songs);
-    // console.log("here is formData");
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    //   console.log(pair[1].toString());
-    // }
-    songs.forEach((song, index) => {
-      formData.append(`songs[${index}][song_id]`, song.song_id);
-      formData.append(`songs[${index}][song_name]`, song.song_name);
-      formData.append(`songs[${index}][spotify_link]`, song.spotify_link);
-      formData.append(`songs[${index}][youtube_link]`, song.youtube_link);
-      // formData.append(`song[song_id]`, song.song_id);
-      // formData.append(`song[song_name]`, song.song_name);
-      // formData.append(`song[spotify_link]`, song.spotify_link);
-      // formData.append(`song[youtube_link]`, song.youtube_link);
-      Object.keys(song.chords).forEach((instrument) => {
-        if (song.chords[instrument]) {
-          formData.append(
-            // `song[chords][${instrument}]`,
-            `songs[${index}][chords][${instrument}]`,
-            song.chords[instrument]
-          );
-        }
-      });
-    });
 
     try {
-      // First request : Upload pdf files
+      // Upload pdf files for chords if any
       const updatedSongs = await Promise.all(
-        songs.map(async (song) => {
+        songs.map(async (song, index) => {
           const chordPaths = {};
+
           for (const [instrument, file] of Object.entries(song.chords)) {
-            if (file) {
-              const formData = new FormData();
-              formData.append("file", file);
-              // const response = await fetch("http://localhost:5080/upload", {
-              //   method: "POST",
-              //   body: formData,
-              // });
-
-              const axiosResponse = await axios.post(
-                "http://localhost:5080/upload",
-                formData,
-                {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
-                }
-              );
-              if (axiosResponse.status === 200) {
-                console.log("axios response");
-                console.log(axiosResponse);
-                console.log(
-                  "current instrument: " +
-                    instrument +
-                    "current file name: " +
-                    axiosResponse.data.fileURL
-                );
-                chordPaths[instrument] = axiosResponse.data.fileURL;
-              } else {
-                throw new Error("Failed to upload file for " + instrument);
-              }
-
-              // if (response.ok) {
-              //   const { filePath } = await response.json();
-              //   console.log("printing file path");
-              //   console.log(filePath);
-              //   console.log(response);
-
-              // } else {
-              //   throw new Error("Failed to upload file for " + instrument);
-              // }
+            if (file && file !== "") {
+              // If the file is not empty, upload to Supabase
+              await handleUploadToSupabase(index, instrument, file);
+              console.log("uploaded to supabase");
+            } else {
+              chordPaths[instrument] = ""; // Default empty string if no file
             }
           }
-          // return { ...songs, chords: chordPaths };
+
           return {
             song_id: song.song_id,
             song_name: song.song_name,
             spotify_link: song.spotify_link,
             youtube_link: song.youtube_link,
-            chords: chordPaths,
+            chords: song.chords, // Use updated chord paths
           };
         })
       );
 
-      // second request: Update Json with file paths
+      // Create a new setlist object
       const newSetlist = {
         id: Date.now().toString(),
         setlist_name: setlistName,
@@ -156,40 +164,36 @@ const CreateSetlist = () => {
         performance_date: performanceDate,
         songs: updatedSongs,
       };
+      console.log(newSetlist);
+      // Write to Firebase
+      writeUserData(
+        newSetlist.id,
+        newSetlist.setlist_name,
+        newSetlist.setlist_created,
+        newSetlist.performance_date,
+        newSetlist.songs
+      );
 
-      const response = await fetch("http://localhost:8000/setlists", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newSetlist),
-      });
-      if (response.ok) {
-        alert("Setlist created successfully!");
-        // reset form state
-        setSetlistName("");
-        setPerformanceDate("");
-        setSongs([
-          {
-            song_id: (Math.random() + 1).toString(36).substring(7),
-            song_name: "",
-            spotify_link: "",
-            youtube_link: "",
-            chords: {
-              guitar: "",
-              ukulele: "",
-              piano: "",
-            },
+      alert("Setlist created successfully!");
+      setSetlistName("");
+      setPerformanceDate("");
+      setSongs([
+        {
+          song_id: (Math.random() + 1).toString(36).substring(7),
+          song_name: "",
+          spotify_link: "",
+          youtube_link: "",
+          chords: {
+            guitar: "",
+            ukulele: "",
+            piano: "",
           },
-        ]);
-      } else {
-        throw new Error("Failed to create setlist");
-      }
+        },
+      ]);
     } catch (error) {
       console.error("Setlist creation failed:", error);
       alert("Setlist creation failed!");
     }
-  
     e.target.reset();
   };
 
@@ -250,11 +254,7 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
-                // value={song.chords.guitar}
-                onChange={(e) => {
-                  // console.log(e.target.files[0]);
-                  handleFileChange(index, "guitar", e.target.files[0]);
-                }}
+                onChange={(e) => handleFileChange(index, "guitar", e.target.files[0])}
               />
             </div>
             <div>
@@ -262,11 +262,7 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
-                // value={song.chords.ukulele}
-                onChange={(e) => {
-                  // console.log(e.target.files[0]);
-                  handleFileChange(index, "ukulele", e.target.files[0]);
-                }}
+                onChange={(e) => handleFileChange(index, "ukulele", e.target.files[0])}
               />
             </div>
             <div>
@@ -274,11 +270,7 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
-                // value={song.chords.piano}
-                onChange={(e) => {
-                  // console.log(e.target.files[0]);
-                  handleFileChange(index, "piano", e.target.files[0]);
-                }}
+                onChange={(e) => handleFileChange(index, "piano", e.target.files[0])}
               />
             </div>
             <button type="button" onClick={() => handleRemoveSong(index)}>

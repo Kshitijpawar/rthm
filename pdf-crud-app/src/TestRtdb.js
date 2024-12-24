@@ -1,28 +1,17 @@
-import { useEffect, useState } from "react";
-import { ref, onValue } from "firebase/database";
-import { database } from "./firebase";
+import React from "react";
+import useFetchRtdb from "./useFetchRtdb";
 
-const TestRtdb = () => {
-  const [data, setData] = useState({});
-  useEffect(() => {
-    // Reference the node you want to read
-    const dataRef = ref(database, "setlists");
+function TestRtdb() {
+  const { data, isPending, error } = useFetchRtdb("setlists", "id", "2");
 
-    // Listen for changes in the data
-    const unsubscribe = onValue(dataRef, (snapshot) => {
-      const value = snapshot.val();
-      setData(value);
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
   return (
     <div>
-      <h1>Realtime Data</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <h1>Query Setlist by ID</h1>
+      {isPending && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
-};
+}
 
 export default TestRtdb;

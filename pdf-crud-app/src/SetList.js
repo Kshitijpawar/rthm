@@ -6,7 +6,6 @@ const SetList = ({ sets, title }) => {
       <h2>{title}</h2>
       {Object.entries(sets).map(([key, set]) => {
         // Log the key and set for debugging
-        console.log("Key:", key, "Set:", set);
 
         return (
           <div className="set-preview" key={key}>

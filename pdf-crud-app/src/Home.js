@@ -1,15 +1,7 @@
-// import BlogList from "./BlogList";
 import SetList from "./SetList";
-// import useFetch from "./useFetch";
-// import {database} from "./firebase";
 import useFetchRtdb from "./useFetchRtdb";
 
 const Home = () => {
-  // const {
-  //   data: sets,
-  //   isPending,
-  //   error,
-  // } = useFetch("http://localhost:8000/setlists");
   const { data: sets, isPending, error } = useFetchRtdb("setlistsNew");
 
 
@@ -19,7 +11,6 @@ const Home = () => {
       {isPending && <div>Loading</div>}
 
       {sets && <SetList sets={sets} title="All Sets" />}
-      {/* {sets && <Setlist sets = {sets} />} */}
     </div>
   );
 };

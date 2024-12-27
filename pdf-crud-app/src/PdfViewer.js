@@ -18,8 +18,6 @@ const PdfViewer = ({ pdfUrl }) => {
     []
   );
 
-  // const fileUrl = useMemo(() => ({ pdfUrl }), [pdfUrl]);
-
 
   const [numPages, setNumPages] = useState(0);
   const [containerRef, setContainerRef] = useState(null);
@@ -49,10 +47,8 @@ const PdfViewer = ({ pdfUrl }) => {
   };
 
   // trying out scrolling time based
-
   const [scrolling, setScrolling] = useState(false);
   const scrollIntervalRef = useRef(null);
-  // const [scrollSpeed, setScrollSpeed] = useState(100);
   const [pixelSpeed, setPixelSpeed] = useState(5);
 
   const startScrolling = () => {
@@ -88,18 +84,7 @@ const PdfViewer = ({ pdfUrl }) => {
           <button onClick={() => goToPage(10)}>Jump to Page 10</button>
           <button onClick={startScrolling}>Scroll Start</button>
           <button onClick={stopScrolling}>Scroll Stop</button>
-          {/* <label style={{ marginLeft: "10px" }}>
-            Scroll Speed:
-            <input
-              type="range"
-              min="0"
-              max="200"
-              step="50"
-              value={scrollSpeed}
-              onChange={(e) => setScrollSpeed(Number(e.target.value))}
-            />
-            {scrollSpeed}ms
-          </label> */}
+          
           <label style={{ marginLeft: "10px" }}>
           pixelSpeed:
             <input

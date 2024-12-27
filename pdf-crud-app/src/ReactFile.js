@@ -3,13 +3,9 @@ import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import TestRtdb from "./TestRtdb";
 
-// import axios from "axios";
-// import PdfViewer from "./PdfViewer";
 
 const TestUpload = () => {
   const [file, setFile] = useState(null);
-//   const [pdfUrl, setPdfUrl] = useState("");
-//   const [error, setError] = useState(false);
   const [supaResponse, setSupaResponse] = useState(null);
 
   // supabase init
@@ -44,10 +40,8 @@ const TestUpload = () => {
         console.log("got data : ", data);
         setSupaResponse(data);
       if (error) {
-        // setError(error);
         throw console.error("Error uploading file: ", error);
       } else {
-        // alert("File succesffully uploaded to supabase");
         console.log("File uploaded to supabase");
       }
     } catch (error) {

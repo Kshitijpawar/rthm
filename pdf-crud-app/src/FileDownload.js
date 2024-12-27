@@ -3,6 +3,7 @@ const FileDownload = ({ chords }) => {
 
   const handleFileDownload = async (fileUrl) => {
     try {
+       console.log(fileUrl);
       const { data, error } = await supabase.storage
         .from("chords")
         .download(fileUrl);
@@ -10,6 +11,8 @@ const FileDownload = ({ chords }) => {
         throw console.error("Error downloading file: ", error);
       } else {
         const url = URL.createObjectURL(data);
+        console.log("constructed url : ")
+        console.log(url)
         window.open(url, "_blank");
       }
       

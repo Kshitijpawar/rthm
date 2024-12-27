@@ -4,7 +4,6 @@ import useFetch from "./useFetch";
 const SetlistEdit = () => {
   const { setlistId } = useParams();
   const [formData, setFormData] = useState(null);
-  //   console.log("bruh edit setlist id: " + setlistId);
   const history = useHistory();
 
   const {
@@ -43,7 +42,6 @@ const SetlistEdit = () => {
       .then((data) => {
         alert("Setlist updated successfully!");
         history.goBack();
-        // setFormData(data);
       })
       .catch((err) => {
         alert(`Error: ${err.message}`);

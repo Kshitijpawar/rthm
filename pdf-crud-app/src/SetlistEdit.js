@@ -1,57 +1,157 @@
-import { useParams, useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
-import useFetch from "./useFetch";
+import { useParams } from "react-router-dom";
+import useFetchRtdb from "./useFetchRtdb";
+import { useEffect, useState } from "react";
+import { supabase } from "./supabaseInit";
+import { database } from "./firebase";
+import { ref, set, push } from "firebase/database";
+
 const SetlistEdit = () => {
   const { setlistId } = useParams();
-  const [formData, setFormData] = useState(null);
-  const history = useHistory();
 
   const {
-    data: set,
-    error,
+    data: existingSet,
     isPending,
-  } = useFetch("http://localhost:8000/setlists/" + setlistId);
+    error,
+  } = useFetchRtdb(`setlistsNew/${setlistId}`);
+
+  const [setlistObj, setSetlistObj] = useState(null);
 
   useEffect(() => {
-    if (set) {
-      setFormData(set); // Initialize formData with fetched set data
+    if (existingSet) {
+      setSetlistObj(existingSet);
     }
-  }, [set]);
-
+  }, [existingSet]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setSetlistObj((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSongChange = (key, field, value) => {
+    setSetlistObj((prev) => ({
       ...prev,
-      [name]: value,
+      songs: { ...prev.songs, [key]: { ...prev.songs[key], [field]: value } },
     }));
   };
-  const handleSave = () => {
-    fetch(`http://localhost:8000/setlists/${setlistId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to save changes");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        alert("Setlist updated successfully!");
-        history.goBack();
-      })
-      .catch((err) => {
-        alert(`Error: ${err.message}`);
-      });
+  const handleFileUpload = (key, instrument, file) => {
+    if (!file) {
+      console.error("no file provided");
+    }
+
+    const validInstruments = ["guitar", "ukulele", "piano"];
+    if (!validInstruments.includes(instrument)) {
+      console.error("Invalid instrument");
+    }
+
+    setSetlistObj((prev) => {
+      if (!prev.songs || !prev.songs[key]) {
+        console.error("song not found");
+        return prev;
+      }
+
+      const temp = {
+        ...prev,
+        songs: {
+          ...prev.songs,
+          [key]: {
+            ...prev.songs[key],
+            chords: {
+              ...prev.songs[key].chords,
+              [instrument + "_blob"]: file,
+            },
+          },
+        },
+      };
+
+      return temp;
+    });
   };
-  const handleSongChange = (index, key, value) => {
-    setFormData((prev) => {
-      const updatedSongs = [...prev.songs];
-      updatedSongs[index][key] = value;
-      return { ...prev, songs: updatedSongs };
+
+  const handleSongDelete = (key) => {
+    setSetlistObj((prev) => {
+      const updatedSongs = { ...prev.songs };
+      delete updatedSongs[key];
+      return {
+        ...prev,
+        songs: updatedSongs,
+      };
+    });
+  };
+
+  const handleAddSong = () => {
+    const newSongKey = (Math.random() + 1).toString(36).substring(7);
+    setSetlistObj((prev) => ({
+      ...prev,
+      songs: {
+        ...prev.songs,
+        [newSongKey]: {
+          song_id: newSongKey,
+          song_name: "",
+          spotify_link: "",
+          youtube_link: "",
+          chords: {
+            guitar: "",
+            ukulele: "",
+            piano: "",
+          },
+        },
+      },
+    }));
+  };
+  const handleSave = async () => {
+    console.log("hey man edit done filled now saving");
+    const updatedSetlist = { ...setlistObj }; // created a copy
+
+    for (const [songKey, song] of Object.entries(updatedSetlist.songs)) {
+      console.log(songKey, song);
+      for (const instrument of ["guitar", "ukulele", "piano"]) {
+        const blobField = `${instrument}_blob`;
+        if (song.chords?.[blobField]) {
+          const theFile = song.chords[blobField];
+          const fileName = `${instrument}-${Date.now()}-${theFile.name}`;
+
+          // upload to supabase storage
+          const { data, error } = await supabase.storage
+            .from("chords")
+            .upload(fileName, theFile);
+          if (error) {
+            console.error(
+              `Failed to upload ${instrument} file for song${songKey}`,
+              error.message
+            );
+            throw error;
+          }
+          // get the public url for the uploaded file
+          const publicUrl = supabase.storage
+            .from("chords")
+            .getPublicUrl(fileName).data.publicUrl;
+
+          // update the chords field with the new path
+          updatedSetlist.songs[songKey].chords[instrument] = publicUrl;
+
+          // remove the blob field after upload
+          delete updatedSetlist.songs[songKey].chords[blobField];
+        }
+      }
+    }
+
+    // Firebase RTDB update setlist
+    const setlistRef = ref(database, "setlistsNew/" + setlistId);
+    set(setlistRef,{
+      setlist_name: setlistObj.setlist_name,
+      // setlist_created:
+      performance_date: setlistObj.performance_date,
+
+    });
+    // update songs dynamically
+    Object.entries(setlistObj.songs).forEach(([songKey, song]) =>{
+      const songRef =push(ref(database, "setlistsNew/" + setlistId + "/songs"));
+      set(songRef, {
+        song_id: songKey,
+        song_name: song.song_name,
+        spotify_link: song.spotify_link,
+        youtube_link: song.youtube_link,
+        chords: song.chords,
+      });
     });
   };
 
@@ -59,40 +159,41 @@ const SetlistEdit = () => {
     <div className="create">
       {isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      <p>Edit setlist</p>
-      {formData && (
-        <div>
+      <h2>Edit Setlist</h2>
+      {setlistObj && (
+        <>
           <label>
             Setlist Name:
             <input
               type="text"
               name="setlist_name"
-              value={formData.setlist_name}
+              value={setlistObj.setlist_name}
               onChange={handleInputChange}
             />
           </label>
-
           <label>
             Performance Date:
             <input
               type="date"
               name="performance_date"
-              value={formData.performance_date}
+              value={setlistObj.performance_date}
               onChange={handleInputChange}
             />
           </label>
-
           <h2>Songs</h2>
-          {formData.songs.map((song, index) => (
-            <div key={index}>
-              <h3>Song {index + 1}</h3>
+          {Object.entries(setlistObj.songs).map(([key, song]) => (
+            <div key={key}>
+              <h3>
+                Song:{" "}
+                {song.song_name || `Untitled Song songkey: ${song.song_id}`}
+              </h3>
               <label>
                 Song Name:
                 <input
                   type="text"
-                  value={song.song_name}
+                  value={song.song_name || ""}
                   onChange={(e) =>
-                    handleSongChange(index, "song_name", e.target.value)
+                    handleSongChange(key, "song_name", e.target.value)
                   }
                 />
               </label>
@@ -100,9 +201,9 @@ const SetlistEdit = () => {
                 Spotify Link:
                 <input
                   type="url"
-                  value={song.spotify_link}
+                  value={song.spotify_link || ""}
                   onChange={(e) =>
-                    handleSongChange(index, "spotify_link", e.target.value)
+                    handleSongChange(key, "spotify_link", e.target.value)
                   }
                 />
               </label>
@@ -110,16 +211,38 @@ const SetlistEdit = () => {
                 YouTube Link:
                 <input
                   type="url"
-                  value={song.youtube_link}
+                  value={song.youtube_link || ""}
                   onChange={(e) =>
-                    handleSongChange(index, "youtube_link", e.target.value)
+                    handleSongChange(key, "youtube_link", e.target.value)
                   }
                 />
               </label>
+              <h4>Upload / Replace Chords</h4>
+              {["guitar", "ukulele", "piano"].map((instrument) => (
+                <div key={instrument}>
+                  <label>
+                    {instrument.charAt(0).toUpperCase() + instrument.slice(1)}:
+                    {song.chords?.[`${instrument}`] ? (
+                      <p>PDF Chords exist on the server</p>
+                    ) : (
+                      <p>No chords exist on the server</p>
+                    )}
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      onChange={(e) =>
+                        handleFileUpload(key, instrument, e.target.files[0])
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+              <button onClick={() => handleSongDelete(key)}>Delete Song</button>
             </div>
           ))}
+          <button onClick={handleAddSong}>Add Song</button>
           <button onClick={handleSave}>Save Changes</button>
-        </div>
+        </>
       )}
     </div>
   );

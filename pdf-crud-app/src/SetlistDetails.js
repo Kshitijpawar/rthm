@@ -6,9 +6,6 @@ const SetlistDetails = () => {
   const { id } = useParams();
   const { data: set, isPending, error } = useFetchRtdb("setlistsNew/" + id);
 
-  console.log("setlist details id: ");
-  console.log(set);
-
   return (
     <div className="set-details" id={id}>
       {isPending && <div>Loading...</div>}
@@ -16,8 +13,9 @@ const SetlistDetails = () => {
       {set && (
         <article>
           <h2>{set.setlist_name}</h2>
+          {/* <h1>{id}</h1> */}
           <p>Performance Date: {set.performance_date}</p>
-          <Link to={{ pathname: `/edit/${set.id}` }}>
+          <Link to={{ pathname: `/setlists/${id}/edit` }}>
             <button>Edit setlist</button>
           </Link>
         </article>

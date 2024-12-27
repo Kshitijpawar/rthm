@@ -24,7 +24,7 @@ function App() {
             <Route path="/setlists/:setlistId/songs/:songId">
               <SongDetails></SongDetails>
             </Route>
-            <Route path="/edit/:setlistId">
+            <Route path="/setlists/:setlistId/edit">
               <SetlistEdit></SetlistEdit>
             </Route>
             <Route path="/setlists/:id">

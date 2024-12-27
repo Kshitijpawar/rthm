@@ -1,26 +1,14 @@
-import { supabase } from "./supabaseInit";
-const FileDownload = ({ chords }) => {
+import React from "react";
 
-  const handleFileDownload = async (fileUrl) => {
-    try {
-       console.log(fileUrl);
-      const { data, error } = await supabase.storage
-        .from("chords")
-        .download(fileUrl);
-      if (error) {
-        throw console.error("Error downloading file: ", error);
-      } else {
-        const url = URL.createObjectURL(data);
-        console.log("constructed url : ")
-        console.log(url)
-        window.open(url, "_blank");
-      }
-      
-    } catch (error) {
-      console.error("File download failed:", error); 
+const FileDownload = ({ chords }) => {
+  const handleFileDownload = (fileUrl) => {
+    if (fileUrl) {
+      // Open the file URL in a new tab
+      window.open(fileUrl, "_blank");
+    } else {
+      console.error("Invalid file URL");
     }
   };
-
 
   return (
     <div>
@@ -30,11 +18,6 @@ const FileDownload = ({ chords }) => {
           {url ? (
             <button
               onClick={() => handleFileDownload(url)}
-            //  {     window.open(url, "_blank");
-              // }
-
-              
-            
               style={{
                 padding: "10px 20px",
                 backgroundColor: "#4CAF50",

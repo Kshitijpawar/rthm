@@ -53,7 +53,7 @@ const TestUpload = () => {
   const handleDownload = async () => {
     try {
       const { data, error } = await supabase.storage
-        .from("rthm-store")
+        .from("chords")
         .download(supaResponse.path);
       if (error) {
         throw console.error("Error downloading file: ", error);

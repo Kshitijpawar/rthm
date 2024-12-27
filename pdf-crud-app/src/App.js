@@ -12,7 +12,6 @@ import SetlistEdit from "./SetlistEdit";
 import ReactFile from "./ReactFile";
 
 function App() {
-  // const person = {};
   return (
     <Router>
       <div className="App">

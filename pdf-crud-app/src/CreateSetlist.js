@@ -4,7 +4,6 @@ import { database } from "./firebase";
 import { ref, set, push } from "firebase/database";
 import { supabase } from "./supabaseInit";
 
-
 const CreateSetlist = () => {
   const [setlistName, setSetlistName] = useState("");
   const [performanceDate, setPerformanceDate] = useState("");
@@ -39,7 +38,9 @@ const CreateSetlist = () => {
 
     // Push songs dynamically
     songs.forEach((song) => {
-      const songRef = push(ref(database, "setlistsNew/" + setlistId + "/songs"));
+      const songRef = push(
+        ref(database, "setlistsNew/" + setlistId + "/songs")
+      );
       set(songRef, {
         song_id: song.song_id,
         song_name: song.song_name,
@@ -86,39 +87,24 @@ const CreateSetlist = () => {
     setSongs(updatedSongs);
   };
 
-  const handleUploadToSupabase = async (index, instrument, file) => {
-    if (!file) return;
+  const handleUploadToSupabase = async (index, instrument, fileObj) => {
+    if (!fileObj) return;
 
-    const fileName = `${instrument}-${Date.now()}-${file.name}`;
-    console.log("file name: ", fileName);
+    const fileName = `${instrument}-${Date.now()}-${fileObj.name}`;
     const { data, error } = await supabase.storage
-      .from("chords") // Assuming you've set up a "chords" bucket in Supabase storage
-      .upload(fileName, file);
-
-    if (error) {
-      console.error("Error uploading file:", error.message);
-      return;
-    }
-
-    // // Get the URL of the uploaded file
-    // const { publicURL, error: urlError } = supabase.storage
-    //   .from("chords")
-    //   .getPublicUrl(fileName);
-
-    // console.log("public url: ", publicURL);
-    // if (urlError) {
-      // console.log("Error getting public URL:", urlError.message);
-      // return;
-    // }
-
-    
-
+      .from("chords")
+      .upload(fileName, fileObj, {
+        cacheControl: "3600",
+        upsert: false,
+      });
     const updatedSongs = [...songs];
-    // updatedSongs[index].chords[instrument] = publicURL;
-    updatedSongs[index].chords[instrument] = data.path
+    updatedSongs[index].chords[instrument] = data.path;
     setSongs(updatedSongs);
-
-    console.log("no alarms yet");
+    if (error) {
+      throw console.error("Error uploading file: ", error);
+    } else {
+      console.log("File uploaded to Supabase");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -136,11 +122,10 @@ const CreateSetlist = () => {
         songs.map(async (song, index) => {
           const chordPaths = {};
 
-          for (const [instrument, file] of Object.entries(song.chords)) {
-            if (file && file !== "") {
+          for (const [instrument, fileObj] of Object.entries(song.chords)) {
+            if (fileObj && fileObj !== "") {
               // If the file is not empty, upload to Supabase
-              await handleUploadToSupabase(index, instrument, file);
-              console.log("uploaded to supabase");
+              await handleUploadToSupabase(index, instrument, fileObj);
             } else {
               chordPaths[instrument] = ""; // Default empty string if no file
             }
@@ -254,7 +239,9 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
-                onChange={(e) => handleFileChange(index, "guitar", e.target.files[0])}
+                onChange={(e) =>
+                  handleFileChange(index, "guitar", e.target.files[0])
+                }
               />
             </div>
             <div>
@@ -262,7 +249,9 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
-                onChange={(e) => handleFileChange(index, "ukulele", e.target.files[0])}
+                onChange={(e) =>
+                  handleFileChange(index, "ukulele", e.target.files[0])
+                }
               />
             </div>
             <div>
@@ -270,7 +259,9 @@ const CreateSetlist = () => {
               <input
                 type="file"
                 accept="application/pdf"
-                onChange={(e) => handleFileChange(index, "piano", e.target.files[0])}
+                onChange={(e) =>
+                  handleFileChange(index, "piano", e.target.files[0])
+                }
               />
             </div>
             <button type="button" onClick={() => handleRemoveSong(index)}>

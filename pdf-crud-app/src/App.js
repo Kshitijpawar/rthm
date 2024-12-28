@@ -6,11 +6,10 @@ import TestUpload from "./TestUpload";
 import NotFound from "./NotFound";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import CreateSetlist from "./CreateSetlist";
 import SongDetails from "./SongDetails";
 import SetlistEdit from "./SetlistEdit";
 import ReactFile from "./ReactFile";
-import CreateSetlistNew from "./CreateSetlistNew";
+import CreateSetlist from "./CreateSetlist";
 
 function App() {
   return (
@@ -35,7 +34,7 @@ function App() {
               <TestUpload></TestUpload>
             </Route>
             <Route path="/createsetlist">
-              <CreateSetlistNew></CreateSetlistNew>
+              <CreateSetlist></CreateSetlist>
             </Route>
             <Route path="/reactpdf">
               <ReactFile></ReactFile>

@@ -4,9 +4,16 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseInit";
 import { database } from "./firebase";
 import { ref, set, push } from "firebase/database";
+import { useHistory, useLocation } from "react-router-dom";
 
 const SetlistEdit = () => {
   const { setlistId } = useParams();
+  const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("Location changed:", location.pathname);
+  }, [location]);
 
   const {
     data: existingSet,
@@ -103,7 +110,7 @@ const SetlistEdit = () => {
       const updatedSetlist = { ...setlistObj }; // created a copy
 
       for (const [songKey, song] of Object.entries(updatedSetlist.songs)) {
-        console.log(songKey, song);
+        // console.log(songKey, song);
         for (const instrument of ["guitar", "ukulele", "piano"]) {
           const blobField = `${instrument}_blob`;
           if (song.chords?.[blobField]) {
@@ -156,13 +163,14 @@ const SetlistEdit = () => {
         });
       });
       alert("Setlist and songs saved successfully");
+      history.goBack();
     } catch (error) {
       alert("Failed to save setlist. please try again");
     }
   };
 
   return (
-    <div className="create">
+    <div className="create" key={location.key}>
       {isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
       <h2>Edit Setlist</h2>

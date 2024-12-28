@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entryPoint: /pdf-crud-app
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RTHM_F67E7 }}
           channelId: live

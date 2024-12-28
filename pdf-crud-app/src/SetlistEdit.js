@@ -98,61 +98,67 @@ const SetlistEdit = () => {
     }));
   };
   const handleSave = async () => {
-    console.log("hey man edit done filled now saving");
-    const updatedSetlist = { ...setlistObj }; // created a copy
+    try {
+      console.log("hey man edit done filled now saving");
+      const updatedSetlist = { ...setlistObj }; // created a copy
 
-    for (const [songKey, song] of Object.entries(updatedSetlist.songs)) {
-      console.log(songKey, song);
-      for (const instrument of ["guitar", "ukulele", "piano"]) {
-        const blobField = `${instrument}_blob`;
-        if (song.chords?.[blobField]) {
-          const theFile = song.chords[blobField];
-          const fileName = `${instrument}-${Date.now()}-${theFile.name}`;
+      for (const [songKey, song] of Object.entries(updatedSetlist.songs)) {
+        console.log(songKey, song);
+        for (const instrument of ["guitar", "ukulele", "piano"]) {
+          const blobField = `${instrument}_blob`;
+          if (song.chords?.[blobField]) {
+            const theFile = song.chords[blobField];
+            const fileName = `${instrument}-${Date.now()}-${theFile.name}`;
 
-          // upload to supabase storage
-          const { data, error } = await supabase.storage
-            .from("chords")
-            .upload(fileName, theFile);
-          if (error) {
-            console.error(
-              `Failed to upload ${instrument} file for song${songKey}`,
-              error.message
-            );
-            throw error;
+            // upload to supabase storage
+            const { data, error } = await supabase.storage
+              .from("chords")
+              .upload(fileName, theFile);
+            if (error) {
+              console.error(
+                `Failed to upload ${instrument} file for song${songKey}`,
+                error.message
+              );
+              throw error;
+            }
+            // get the public url for the uploaded file
+            const publicUrl = supabase.storage
+              .from("chords")
+              .getPublicUrl(fileName).data.publicUrl;
+
+            // update the chords field with the new path
+            updatedSetlist.songs[songKey].chords[instrument] = publicUrl;
+
+            // remove the blob field after upload
+            delete updatedSetlist.songs[songKey].chords[blobField];
           }
-          // get the public url for the uploaded file
-          const publicUrl = supabase.storage
-            .from("chords")
-            .getPublicUrl(fileName).data.publicUrl;
-
-          // update the chords field with the new path
-          updatedSetlist.songs[songKey].chords[instrument] = publicUrl;
-
-          // remove the blob field after upload
-          delete updatedSetlist.songs[songKey].chords[blobField];
         }
       }
-    }
 
-    // Firebase RTDB update setlist
-    const setlistRef = ref(database, "setlistsNew/" + setlistId);
-    set(setlistRef,{
-      setlist_name: setlistObj.setlist_name,
-      // setlist_created:
-      performance_date: setlistObj.performance_date,
-
-    });
-    // update songs dynamically
-    Object.entries(setlistObj.songs).forEach(([songKey, song]) =>{
-      const songRef =push(ref(database, "setlistsNew/" + setlistId + "/songs"));
-      set(songRef, {
-        song_id: songKey,
-        song_name: song.song_name,
-        spotify_link: song.spotify_link,
-        youtube_link: song.youtube_link,
-        chords: song.chords,
+      // Firebase RTDB update setlist
+      const setlistRef = ref(database, "setlistsNew/" + setlistId);
+      set(setlistRef, {
+        setlist_name: setlistObj.setlist_name,
+        // setlist_created:
+        performance_date: setlistObj.performance_date,
       });
-    });
+      // update songs dynamically
+      Object.entries(setlistObj.songs).forEach(([songKey, song]) => {
+        const songRef = push(
+          ref(database, "setlistsNew/" + setlistId + "/songs")
+        );
+        set(songRef, {
+          song_id: songKey,
+          song_name: song.song_name,
+          spotify_link: song.spotify_link,
+          youtube_link: song.youtube_link,
+          chords: song.chords,
+        });
+      });
+      alert("Setlist and songs saved successfully");
+    } catch (error) {
+      alert("Failed to save setlist. please try again");
+    }
   };
 
   return (
@@ -181,7 +187,7 @@ const SetlistEdit = () => {
             />
           </label>
           <h2>Songs</h2>
-          {Object.entries(setlistObj.songs).map(([key, song]) => (
+          {setlistObj.songs && Object.entries(setlistObj.songs).map(([key, song]) => (
             <div key={key}>
               <h3>
                 Song:{" "}

@@ -10,6 +10,7 @@ import CreateSetlist from "./CreateSetlist";
 import SongDetails from "./SongDetails";
 import SetlistEdit from "./SetlistEdit";
 import ReactFile from "./ReactFile";
+import CreateSetlistNew from "./CreateSetlistNew";
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
               <TestUpload></TestUpload>
             </Route>
             <Route path="/createsetlist">
-              <CreateSetlist></CreateSetlist>
+              <CreateSetlistNew></CreateSetlistNew>
             </Route>
             <Route path="/reactpdf">
               <ReactFile></ReactFile>

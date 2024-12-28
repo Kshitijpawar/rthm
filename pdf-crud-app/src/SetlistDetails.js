@@ -21,7 +21,7 @@ const SetlistDetails = () => {
         </article>
       )}
 
-      {set &&
+      {set && set.songs && 
         Object.entries(set.songs).map(([songId, song]) => {
           return (
             <div className="song-preview" id={songId} key={songId}>

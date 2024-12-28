@@ -2,6 +2,17 @@
 
 ## Overview
 The **Setlist Web App** is a full-stack web application designed for creating, sharing, and managing setlists. Additionally, it incorporates authentication to ensure secure access for authenticated users only.
+## Images
+## Images
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <img src="images/Screenshot 2024-12-28 at 10.30.26 PM.png" alt="homepage" width="45%">
+  <img src="images/Screenshot 2024-12-28 at 10.32.47 PM.png" alt="setlistdetails" width="45%">
+  <img src="images/Screenshot 2024-12-28 at 10.30.00 PM.png" alt="screenshot1" width="45%">
+  <img src="images/Screenshot 2024-12-28 at 10.30.41 PM.png" alt="screenshot2" width="45%">
+  <img src="images/Screenshot 2024-12-28 at 10.39.46 PM.png" alt="screenshot2" width="45%">
+</div>
+
+
 
 ## Features
 1. **Home Page**

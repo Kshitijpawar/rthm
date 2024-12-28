@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseInit";
 import { database } from "./firebase";
 import { ref, set, push, remove } from "firebase/database";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SetlistEdit = () => {
   const { setlistId } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -164,7 +164,7 @@ const SetlistEdit = () => {
         });
       });
       alert("Setlist and songs saved successfully");
-      history.goBack();
+      navigate.goBack();
     } catch (error) {
       alert("Failed to save setlist. please try again");
     }
@@ -175,7 +175,7 @@ const SetlistEdit = () => {
       await remove(setlistRefDel);
       console.log(`setlist with key ${setlistId} deleted successfully.`);
       alert("Successfully deleted setlist");
-      history.push("/");
+      navigate.push("/");
     } catch (error) {
       console.log(error);
       throw error;

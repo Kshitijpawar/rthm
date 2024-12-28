@@ -8,14 +8,20 @@ permissions:
   contents: read
   pull-requests: write
 jobs:
-  build_and_preview:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+      - name: Install dependencies and build app
+        run: |
+          cd pdf-crud-app
+          npm ci
+          CI=false npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RTHM_F67E7 }}
           projectId: rthm-f67e7
+          channelId: live
+          entryPoint: ./pdf-crud-app
+          firebaseToolsVersion: latest

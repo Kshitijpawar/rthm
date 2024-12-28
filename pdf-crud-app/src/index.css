@@ -163,6 +163,11 @@
   color: #f1356d;
   margin-bottom: 30px;
 }
+.create h4 {
+  /* font-size: px; */
+  color: #f1356d;
+  margin-bottom: 30px;
+}
 .create input, .create textarea, .create select {
   width: 100%;
   padding: 6px 10px;
@@ -203,4 +208,63 @@
 
 button {
   margin: 10px;
+}
+
+
+/* Style for the user icon in the navbar */
+.user-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center; /* Ensures the icon is vertically aligned */
+  cursor: pointer;
+}
+
+.icon-user {
+  font-size: 1.5rem; /* Adjust size of the user icon */
+  color: #333; /* Match the text color */
+  margin-right: 10px; /* Add spacing between icon and dropdown */
+}
+
+.icon-user:hover {
+  color: #f1356d; /* Add hover effect to the icon */
+}
+
+/* Dropdown menu */
+.user-dropdown .dropdown-menu {
+  position: absolute;
+  top: 100%; /* Place dropdown below the icon */
+  right: 0; /* Align dropdown to the right */
+  background-color: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Initially hidden */
+}
+
+.user-dropdown:hover .dropdown-menu {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown-menu p {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 0.9rem;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  padding: 10px;
+  background-color: #f1356d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-menu button:hover {
+  background-color: #d32f2f;
 }

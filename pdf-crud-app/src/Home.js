@@ -1,15 +1,9 @@
-import SetList from "./SetList";
-import useFetchRtdb from "./useFetchRtdb";
-
 const Home = () => {
-  const { data: sets, isPending, error } = useFetchRtdb("setlistsNew");
-
   return (
-    <div className="home">
-      {error && <div>{error}</div>}
-      {isPending && <div>Loading</div>}
-
-      {sets && <SetList sets={sets} title="All Sets" />}
+    <div className="create">
+      <h2>Welcome!</h2>
+      <h3>A React webapp to share, view and create setlists for performances.</h3>
+      <h4>To view existing setlists create an account and login</h4>
     </div>
   );
 };

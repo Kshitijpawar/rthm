@@ -2,14 +2,14 @@ import "./App.css";
 import Navbar from "./Navbar";
 import Home from "./Home";
 import SetlistDetails from "./SetlistDetails";
-import TestUpload from "./TestUpload";
 import NotFound from "./NotFound";
-
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SongDetails from "./SongDetails";
 import SetlistEdit from "./SetlistEdit";
-import ReactFile from "./ReactFile";
 import CreateSetlist from "./CreateSetlist";
+import AuthComp from "./AuthComp";
+import ViewSetlists from "./ViewSetlists";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -17,32 +17,55 @@ function App() {
       <div className="App">
         <Navbar />
         <div className="content">
-          <Switch>
-            <Route exact path="/">
-              <Home></Home>
-            </Route>
-            <Route path="/setlists/:setlistId/songs/:songId">
-              <SongDetails></SongDetails>
-            </Route>
-            <Route path="/setlists/:setlistId/edit">
-              <SetlistEdit></SetlistEdit>
-            </Route>
-            <Route path="/setlists/:id">
-              <SetlistDetails></SetlistDetails>
-            </Route>
-            <Route path="/testupload">
-              <TestUpload></TestUpload>
-            </Route>
-            <Route path="/createsetlist">
-              <CreateSetlist></CreateSetlist>
-            </Route>
-            <Route path="/reactpdf">
-              <ReactFile></ReactFile>
-            </Route>
-            <Route path="*">
-              <NotFound></NotFound>
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<AuthComp />} />
+
+            {/* Protected routes for nested paths */}
+            <Route
+              path="/setlists/:setlistId/songs/:songId"
+              element={
+                <ProtectedRoute>
+                  <SongDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/setlists/:setlistId/edit"
+              element={
+                <ProtectedRoute>
+                  <SetlistEdit />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/setlists/:id"
+              element={
+                <ProtectedRoute>
+                  <SetlistDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/setlists"
+              element={
+                <ProtectedRoute>
+                  <ViewSetlists />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/createsetlist"
+              element={
+                <ProtectedRoute>
+                  <CreateSetlist />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Catch-all route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </div>
     </Router>

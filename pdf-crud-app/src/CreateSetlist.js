@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { database } from "./firebase";
 import { ref, set, push } from "firebase/database";
 import { supabase } from "./supabaseInit";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateSetlist = () => {
   const [newSetlist, setNewSetlist] = useState({
@@ -10,7 +10,7 @@ const CreateSetlist = () => {
   });
 
   const [isUpload, setIsUpload] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name: fieldName, value } = e.target;
@@ -163,7 +163,7 @@ const CreateSetlist = () => {
         setlist_created: new Date().toISOString().split("T")[0],
       });
       setIsUpload(false);
-      history.push("/");
+      navigate.push("/");
     }
   };
   return (

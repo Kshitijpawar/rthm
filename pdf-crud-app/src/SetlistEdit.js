@@ -119,7 +119,7 @@ const SetlistEdit = () => {
             const fileName = `${instrument}-${Date.now()}-${theFile.name}`;
 
             // upload to supabase storage
-            const { data, error } = await supabase.storage
+            const { error } = await supabase.storage
               .from("chords")
               .upload(fileName, theFile);
             if (error) {

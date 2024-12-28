@@ -1,11 +1,11 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SpotifyEmbed from "./SpotifyEmbed";
 import YoutubeEmbed from "./YoutubeEmbed";
 import FileDownload from "./FileDownload";
 import useFetchRtdb from "./useFetchRtdb";
 const SongDetails = () => {
   const { setlistId, songId } = useParams();
-  const { data: selectedSong, isPending, error } = useFetchRtdb(`setlistsNew/${setlistId}/songs/${songId}`);
+  const { data: selectedSong } = useFetchRtdb(`setlistsNew/${setlistId}/songs/${songId}`);
   
   return (
     <div className="song-details">

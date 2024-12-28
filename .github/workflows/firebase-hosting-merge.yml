@@ -9,14 +9,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Create package.json
-        run: npm init
+
       - name: Install Dependencies
         run: npm install
+        working-directory: ./pdf-crud-app
+
       - name: Build
         run: npm run build
+        working-directory: ./pdf-crud-app
         env:
           CI: ""
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           entryPoint: ./pdf-crud-app

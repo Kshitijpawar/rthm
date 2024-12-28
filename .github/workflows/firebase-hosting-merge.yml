@@ -17,7 +17,10 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RTHM_F67E7 }}
-          channelId: live
           projectId: rthm-f67e7
-          # Set the path to the build folder relative to the repo root
-          targetDirectory: pdf-crud-app/build
+          channelId: live
+          # Specify the path to the firebase.json
+          entryPoint: ./pdf-crud-app
+          # Specify the build output folder
+          target: pdf-crud-app/build
+          firebaseToolsVersion: latest

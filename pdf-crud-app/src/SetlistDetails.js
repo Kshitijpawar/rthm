@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useFetchRtdb from "./useFetchRtdb";
 
+
 const SetlistDetails = () => {
   const { id } = useParams();
   const { data: set, isPending, error } = useFetchRtdb("setlistsNew/" + id);

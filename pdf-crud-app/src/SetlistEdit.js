@@ -3,13 +3,14 @@ import useFetchRtdb from "./useFetchRtdb";
 import { useEffect, useState } from "react";
 import { supabase } from "./supabaseInit";
 import { database } from "./firebase";
-import { ref, set, push } from "firebase/database";
+import { ref, set, push, remove } from "firebase/database";
 import { useHistory, useLocation } from "react-router-dom";
 
 const SetlistEdit = () => {
   const { setlistId } = useParams();
   const history = useHistory();
   const location = useLocation();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   useEffect(() => {
     console.log("Location changed:", location.pathname);
@@ -168,12 +169,40 @@ const SetlistEdit = () => {
       alert("Failed to save setlist. please try again");
     }
   };
-
+  const handleDeleteSetlist = async () => {
+    try {
+      const setlistRefDel = ref(database, `setlistsNew/${setlistId}`);
+      await remove(setlistRefDel);
+      console.log(`setlist with key ${setlistId} deleted successfully.`);
+      alert("Successfully deleted setlist");
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+    finally{
+      setIsConfirmOpen(true);
+    }
+  };
   return (
     <div className="create" key={location.key}>
       {isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
+      {isConfirmOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Confirm Deletion</h3>
+            <p>
+              Are you sure you want to delete this setlist? This action cannot
+              be undone.
+            </p>
+            <button onClick={handleDeleteSetlist}>Yes, Delete</button>
+            <button onClick={() => setIsConfirmOpen(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
       <h2>Edit Setlist</h2>
+      <button onClick={() => setIsConfirmOpen(true)}>DELETE SETLIST</button>
       {setlistObj && (
         <>
           <label>
@@ -195,65 +224,69 @@ const SetlistEdit = () => {
             />
           </label>
           <h2>Songs</h2>
-          {setlistObj.songs && Object.entries(setlistObj.songs).map(([key, song]) => (
-            <div key={key}>
-              <h3>
-                Song:{" "}
-                {song.song_name || `Untitled Song songkey: ${song.song_id}`}
-              </h3>
-              <label>
-                Song Name:
-                <input
-                  type="text"
-                  value={song.song_name || ""}
-                  onChange={(e) =>
-                    handleSongChange(key, "song_name", e.target.value)
-                  }
-                />
-              </label>
-              <label>
-                Spotify Link:
-                <input
-                  type="url"
-                  value={song.spotify_link || ""}
-                  onChange={(e) =>
-                    handleSongChange(key, "spotify_link", e.target.value)
-                  }
-                />
-              </label>
-              <label>
-                YouTube Link:
-                <input
-                  type="url"
-                  value={song.youtube_link || ""}
-                  onChange={(e) =>
-                    handleSongChange(key, "youtube_link", e.target.value)
-                  }
-                />
-              </label>
-              <h4>Upload / Replace Chords</h4>
-              {["guitar", "ukulele", "piano"].map((instrument) => (
-                <div key={instrument}>
-                  <label>
-                    {instrument.charAt(0).toUpperCase() + instrument.slice(1)}:
-                    {song.chords?.[`${instrument}`] ? (
-                      <p>PDF Chords exist on the server</p>
-                    ) : (
-                      <p>No chords exist on the server</p>
-                    )}
-                    <input
-                      type="file"
-                      accept="application/pdf"
-                      onChange={(e) =>
-                        handleFileUpload(key, instrument, e.target.files[0])
-                      }
-                    />
-                  </label>
-                </div>
-              ))}
-              <button onClick={() => handleSongDelete(key)}>Delete Song</button>
-            </div>
-          ))}
+          {setlistObj.songs &&
+            Object.entries(setlistObj.songs).map(([key, song]) => (
+              <div key={key}>
+                <h3>
+                  Song:{" "}
+                  {song.song_name || `Untitled Song songkey: ${song.song_id}`}
+                </h3>
+                <label>
+                  Song Name:
+                  <input
+                    type="text"
+                    value={song.song_name || ""}
+                    onChange={(e) =>
+                      handleSongChange(key, "song_name", e.target.value)
+                    }
+                  />
+                </label>
+                <label>
+                  Spotify Link:
+                  <input
+                    type="url"
+                    value={song.spotify_link || ""}
+                    onChange={(e) =>
+                      handleSongChange(key, "spotify_link", e.target.value)
+                    }
+                  />
+                </label>
+                <label>
+                  YouTube Link:
+                  <input
+                    type="url"
+                    value={song.youtube_link || ""}
+                    onChange={(e) =>
+                      handleSongChange(key, "youtube_link", e.target.value)
+                    }
+                  />
+                </label>
+                <h4>Upload / Replace Chords</h4>
+                {["guitar", "ukulele", "piano"].map((instrument) => (
+                  <div key={instrument}>
+                    <label>
+                      {instrument.charAt(0).toUpperCase() + instrument.slice(1)}
+                      :
+                      {song.chords?.[`${instrument}`] ? (
+                        <p>PDF Chords exist on the server</p>
+                      ) : (
+                        <p>No chords exist on the server</p>
+                      )}
+                      <input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={(e) =>
+                          handleFileUpload(key, instrument, e.target.files[0])
+                        }
+                      />
+                    </label>
+                  </div>
+                ))}
+                <button onClick={() => handleSongDelete(key)}>
+                  Delete Song
+                </button>
+              </div>
+            ))}
           <button onClick={handleAddSong}>Add Song</button>
           <button onClick={handleSave}>Save Changes</button>
         </>

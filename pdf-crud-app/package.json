@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/renderer": "^4.1.6",
     "@supabase/supabase-js": "^2.47.10",
     "@wojtekmaj/react-hooks": "^1.21.0",
     "axios": "^1.7.9",

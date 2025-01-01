@@ -5,7 +5,7 @@ import { authObj } from "./firebase";
 
 const Navbar = () => {
   const [user, setUser] = useState(null); // Track the logged-in user
-  const [showDropdown, setShowDropdown] = useState(false); // Track dropdown visibility
+  // const [showDropdown, setShowDropdown] = useState(false); // Track dropdown visibility
   const navigate = useNavigate();
 
   useEffect(() => {

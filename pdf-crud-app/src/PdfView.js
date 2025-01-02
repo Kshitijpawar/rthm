@@ -1,7 +1,5 @@
-
-// on mobile devices the pdf doesn't stop scrolling even after reaching the end of page. 
+// on mobile devices the pdf doesn't stop scrolling even after reaching the end of page.
 // I cannot find a way to stop the scrolling.
-
 
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -11,6 +9,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 const PdfView = () => {
   let globalId;
+
+  const scrollSpeed = useRef(2);
+
   const location = useLocation();
   const pdfUrl = location.state || { default: "No data passed" };
 
@@ -44,18 +45,15 @@ const PdfView = () => {
 
   const autoScroll = () => {
     console.log("auto scroll function");
-    const {scrollHeight, scrollTop, clientHeight} = document.documentElement;
-    console.log(scrollHeight, scrollTop, clientHeight);
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
     if (Math.ceil(scrollTop) + clientHeight >= scrollHeight) {
-        console.log("reached end of page");
-        cancelAnimationFrame(globalId);
-        return;
+      console.log("reached end of page cancelling scroll");
+      cancelAnimationFrame(globalId);
+      return;
     }
 
-
-    window.scrollBy(0, 6);
+    window.scrollBy(0, scrollSpeed.current);
     globalId = requestAnimationFrame(autoScroll);
-    // console.log("globalId: ", globalId);
   };
   const handleStartScroll = () => {
     console.log("inside start scroll");
@@ -67,9 +65,9 @@ const PdfView = () => {
     cancelAnimationFrame(globalId);
   };
 
-  const handleGetData = () => {
-    const {scrollHeight, scrollTop, clientHeight} = document.documentElement;
-    console.log(scrollHeight, scrollTop, clientHeight);
+  
+  const handleScrollSpeedChange = (e) => {
+    scrollSpeed.current = e.target.value;
   };
 
   return (
@@ -95,9 +93,17 @@ const PdfView = () => {
       </div>
       <div className="bottom-bar">
         {/* <p>This is a fixed bottom bar. It stays here</p> */}
+        <input
+          id="scroll-speed"
+          type="range"
+          min="0"
+          max="5"
+          step="0.1"
+          defaultValue={0.7}
+          onChange={handleScrollSpeedChange}
+        />
         <button onClick={handleStartScroll}>Start</button>
         <button onClick={handleStopScroll}>Stop</button>
-        <button onClick={handleGetData}>data</button>
       </div>
     </div>
   );

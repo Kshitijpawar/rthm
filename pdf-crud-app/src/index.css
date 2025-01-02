@@ -282,6 +282,7 @@ button {
 }
 .pdf-page {
   margin: 5px 0;
+  /* width:; */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for styling */
 }
 

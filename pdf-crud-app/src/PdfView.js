@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -7,19 +5,24 @@ import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const PdfView = () => {
-  let globalId;
+  // interesting lesson how since scrolldelay is a local variable it gets set to null
+  // when the component re-renders, so we need to use a ref to keep track of it
+  // this happens when user clicks scale +/- buttons
+  // let scrollDelay; 
 
-  const scrollSpeed = useRef(0.6);
+  const scrollDelay = useRef(null);
 
+  // const scrollSpeed = useRef(0.6);
+  const scrollTime = useRef(200);
   const location = useLocation();
   const pdfUrl = location.state || { default: "No data passed" };
 
   const [numPages, setNumPages] = useState(0);
-  const scaleRef = useRef(1); // For dynamic scaling
+  // const scaleRef = useRef(1); // For dynamic scaling
   const [scale, setScale] = useState(1);
   const pageRefs = useRef([]); // To hold references to individual pages
 
-  //   const isScrolling = useRef(false); // Tracks if scrolling was triggered programmatically
+  // const [isScrolling, setIsScrolling] = useState(false);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
@@ -42,37 +45,40 @@ const PdfView = () => {
     window.addEventListener("resize", updateScale);
 
     return () => window.removeEventListener("resize", updateScale);
-  }, [scale]);
+  }, []);
 
-  const autoScroll = () => {
-    // console.log("auto scroll function");
+  // const autoScroll = () => {};
+  const handleStartScroll = () => {
+    console.log("inside start scroll");
+    document.getElementById("start-scroll-button").disabled = true;
+
+    // globalId = requestAnimationFrame(autoScroll);
     const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
     if (Math.ceil(scrollTop) + clientHeight >= scrollHeight) {
       console.log("reached end of page cancelling scroll");
-      cancelAnimationFrame(globalId);
+      clearTimeout(scrollDelay.current);
       return;
     }
-    // console.log("current scroll speed", scrollSpeed.current);
-    window.scrollBy(0, scrollSpeed.current);
-    globalId = requestAnimationFrame(autoScroll);
-  };
-  const handleStartScroll = () => {
-    // console.log("inside start scroll");
-
-    globalId = requestAnimationFrame(autoScroll);
+    // window.scrollBy(0, 0.5);
+    window.scrollBy(0, 1);
+    
+    // console.log("current scroll timer: ", scrollTime.current);
+    scrollDelay.current = setTimeout(handleStartScroll, scrollTime.current);
+    console.log("current scroll id: ", scrollDelay.current);
   };
   const handleStopScroll = () => {
-    // console.log("inside stop scroll");
-    cancelAnimationFrame(globalId);
+    console.log("inside stop scroll trying to stop scroll with id: ", scrollDelay.current);
+    document.getElementById("start-scroll-button").disabled = false;
+
+    clearTimeout(scrollDelay.current);
   };
 
   const handleScrollSpeedChange = (e) => {
-    scrollSpeed.current = e.target.value;
+    scrollTime.current = e.target.value;
   };
 
   return (
     <div>
-      <p>Hello</p>
       <div className="pdf-container">
         <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
           {Array.from({ length: numPages }, (_, index) => (
@@ -93,18 +99,29 @@ const PdfView = () => {
         </Document>
       </div>
       <div className="bottom-bar">
-        {/* <p>This is a fixed bottom bar. It stays here</p> */}
         <input
           id="scroll-speed"
           type="range"
           min="0"
-          max="1"
-          step="0.0005"
-          defaultValue={scrollSpeed.current}
+          max="500"
+          step="5"
+          defaultValue={scrollTime.current}
           onChange={handleScrollSpeedChange}
         />
-        <button onClick={handleStartScroll}>Start</button>
-        <button onClick={handleStopScroll}>Stop</button>
+        <button id="start-scroll-button" onClick={handleStartScroll}>
+          Start
+        </button>
+        <span style={{ color: "white" }}>Auto-Scroll</span>
+        <button id="stop-scroll-button" onClick={handleStopScroll}>
+          Stop
+        </button>
+        <button id="scale-up-button" onClick={() => setScale(scale + 0.5)}>
+          +
+        </button>
+        <span style={{ color: "white" }}>Scale</span>
+        <button id="scale-down-button" onClick={() => setScale(scale - 0.5)}>
+          -
+        </button>
       </div>
     </div>
   );

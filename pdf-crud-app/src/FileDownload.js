@@ -45,7 +45,7 @@ const FileDownload = ({ chords }) => {
                     cursor: "pointer",
                   }}
                 >
-                  Hello
+                  View PDF
                 </button>
               </Link>
             </>

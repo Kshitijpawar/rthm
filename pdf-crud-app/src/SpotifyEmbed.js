@@ -23,16 +23,18 @@ const SpotifyEmbed = ({ song_url }) => {
 
   return (
     <div>
-      <iframe
-        src={embedUrl}
-        width="80%"
-        height="180"
-        frameBorder="0"
-        allow="encrypted-media"
-        allowtransparency="true"
-        style={{ borderRadius: "12px" }}
-        title="Spotify Embed"
-      ></iframe>
+    <iframe
+      src={embedUrl}
+      style={{
+        aspectRatio: "16 / 9", 
+        width: "90%", 
+        borderRadius: "12px",
+        border: "0",
+      }}
+      allow="encrypted-media"
+      allowtransparency="true"
+      title="Spotify Embed"
+    ></iframe>
     </div>
   );
 };

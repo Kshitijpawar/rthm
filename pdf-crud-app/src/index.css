@@ -10,7 +10,8 @@
   padding: 20px;
   display: flex;
   align-items: center;
-  max-width: 600px;
+  /* max-width: 600px; */
+  max-width: 100%;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
 }
@@ -29,7 +30,8 @@
   color: #f1356d;
 }
 .content {
-  max-width: 600px;
+  /* max-width: 600px; */
+  max-width: 100%;
   margin: 5px auto;
   padding: 20px;
 }
@@ -267,4 +269,50 @@ button {
 
 .dropdown-menu button:hover {
   background-color: #d32f2f;
+}
+
+
+/* pdf viewer css */
+.pdf-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  /* height: 100vh; */
+}
+.pdf-page {
+  margin: 5px 0;
+  /* width:; */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for styling */
+}
+
+/* bottom bar css */
+.bottom-bar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width: 100%;
+  background-color: #333;
+  color:white;
+  text-align: center;
+  padding: 10px 0;
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+.bottom-bar p{
+  color: white;
+}
+
+.react-pdf__Page__canvas {
+  margin: 0 auto;
+  width: 100% !important;
+  /* height: 100% !important; */
+}
+
+#scroll-speed{
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }

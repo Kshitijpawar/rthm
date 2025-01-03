@@ -26,14 +26,17 @@ const YoutubeEmbed = ({ song_url }) => {
   return (
     <div>
       <iframe
-        src={embedUrl}
-        width="80%"
-        height="315"
-        frameBorder="0"
-        allow="autoplay; encrypted-media"
-        allowFullScreen
         title="YouTube Video Embed"
-        style={{ borderRadius: "8px" }}
+        src={embedUrl}
+        style={{
+          aspectRatio: "16 / 9",
+          width: "100%",
+          borderRadius: "8px",
+          border: "0",
+          allow: "autoplay; encrypted-media",
+          allowFullScreen: true,
+          title: "YouTube Video Embed",
+        }}
       ></iframe>
     </div>
   );

@@ -10,6 +10,7 @@ import CreateSetlist from "./CreateSetlist";
 import AuthComp from "./AuthComp";
 import ViewSetlists from "./ViewSetlists";
 import ProtectedRoute from "./ProtectedRoute";
+import PdfView from "./PdfView";
 
 function App() {
   return (
@@ -27,6 +28,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <SongDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/setlists/:setlistId/songs/:songId/:instrument/viewpdf"
+              element={
+                <ProtectedRoute>
+                  <PdfView />
                 </ProtectedRoute>
               }
             />

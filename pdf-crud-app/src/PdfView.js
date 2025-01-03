@@ -8,7 +8,7 @@ const PdfView = () => {
   // interesting lesson how since scrolldelay is a local variable it gets set to null
   // when the component re-renders, so we need to use a ref to keep track of it
   // this happens when user clicks scale +/- buttons
-  // let scrollDelay; 
+  // let scrollDelay;
 
   const scrollDelay = useRef(null);
 
@@ -49,10 +49,8 @@ const PdfView = () => {
 
   // const autoScroll = () => {};
   const handleStartScroll = () => {
-    console.log("inside start scroll");
     document.getElementById("start-scroll-button").disabled = true;
 
-    // globalId = requestAnimationFrame(autoScroll);
     const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
     if (Math.ceil(scrollTop) + clientHeight >= scrollHeight) {
       console.log("reached end of page cancelling scroll");
@@ -60,21 +58,20 @@ const PdfView = () => {
       return;
     }
     // window.scrollBy(0, 0.5);
-    window.scrollBy(0, 1);
-    
-    // console.log("current scroll timer: ", scrollTime.current);
+    window.scrollBy(0, 2);
+
+    console.log("current scroll timer: ", scrollTime.current);
     scrollDelay.current = setTimeout(handleStartScroll, scrollTime.current);
-    console.log("current scroll id: ", scrollDelay.current);
   };
   const handleStopScroll = () => {
-    console.log("inside stop scroll trying to stop scroll with id: ", scrollDelay.current);
     document.getElementById("start-scroll-button").disabled = false;
 
     clearTimeout(scrollDelay.current);
   };
 
   const handleScrollSpeedChange = (e) => {
-    scrollTime.current = e.target.value;
+    // scrollTime.current = e.target.value;
+    scrollTime.current = Math.abs(e.target.value);
   };
 
   return (
@@ -100,12 +97,12 @@ const PdfView = () => {
       </div>
       <div className="bottom-bar">
         <input
-          id="scroll-speed"
+          id="  "
           type="range"
-          min="0"
-          max="500"
-          step="5"
-          defaultValue={scrollTime.current}
+          min="-300"
+          max="0"
+          defaultValue="-100"
+          step="3"
           onChange={handleScrollSpeedChange}
         />
         <button id="start-scroll-button" onClick={handleStartScroll}>
